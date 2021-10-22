@@ -23,12 +23,12 @@ HOME_DIR = path.expanduser("~")
 
 class BrowserHelper:
     def __init__(self, headless=False):
-        pass
+        self.headless = headless
         # self.browser = browser
         # if browser.lower() == 'firefox':
         #    init_firefox(headless)
 
-    def firefox(self, headless=False):
+    def firefox(self):
         """Firefox Settings. Return firefox driver."""
         # zip_file_name = f"geckodriver-{GECKODRIVER_VERSION}-win64.zip"
         # download_url = f"https://github.com/mozilla/geckodriver/releases/download/{GECKODRIVER_VERSION}/{zip_file_name}"
@@ -42,7 +42,7 @@ class BrowserHelper:
             "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe"
         )
         ff_options = Options()
-        ff_options.headless = headless  # Keeps it in the background
+        ff_options.headless = self.headless  # Keeps it in the background
         # ff_options.log.level = "trace"
         ff_caps = DesiredCapabilities().FIREFOX
         # ff_caps["pageLoadStrategy"] = "none"
@@ -55,7 +55,7 @@ class BrowserHelper:
         )
         return firefox_driver
 
-    def chrome():
+    def chrome(self):
         """Chromedriver settings. Return chrome driver."""
         zip_file_name = "chromedriver_win32.zip"
         download_url = f"https://chromedriver.storage.googleapis.com/{CHROMEDRIVER_VERSION}/{zip_file_name}"
@@ -71,7 +71,7 @@ class BrowserHelper:
         ch_options.add_experimental_option("useAutomationExtension", False)
         ch_options.add_experimental_option("excludeSwitches", ["enable-logging"])
         ch_options.add_argument("--disable-extensions")
-        if headless:
+        if self.headless:
             ch_options.add_argument("--headless")  # Keeps it in the background
         ch_caps = DesiredCapabilities.CHROME
         ch_caps["pageLoadStrategy"] = "none"
